@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import HomeScreen from "./pages/HomeScreen";
 import LoginScreen from "./pages/LoginScreen";
 import CreateAccountScreen from "./pages/CreateAccountScreen";
@@ -11,7 +11,7 @@ import { AuthProvider } from "./contexts/authContext";
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/">
+      <Router>
         <Routes>
           <Route path="/api" element={<ApiDocs />} />
           <Route path="/" element={<HomeScreen />} />

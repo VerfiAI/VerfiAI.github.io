@@ -2,7 +2,7 @@
   "name": "verifai-frontend",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://verfiai.github.io/",
+  "homepage": "https://verfiai.github.io",
   "dependencies": {
     "@firebase/auth": "^1.5.1",
     "axios": "^1.6.5",

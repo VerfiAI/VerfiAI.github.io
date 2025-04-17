@@ -26,10 +26,11 @@ jobs:
         run: |
           cd frontend
           npm run build
+          # Copy the build files to the root
+          cp -r build/* ../
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/build
-          destination_dir: ./ 
+          publish_dir: ./ 

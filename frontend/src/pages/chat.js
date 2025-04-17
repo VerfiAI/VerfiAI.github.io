@@ -20,6 +20,7 @@ import { useAuth } from "../contexts/authContext";
 import "../styles/ReferenceVerification.css";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { verifyReference, analyzePaper } from '../services/api';
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -42,12 +43,10 @@ const VerificationStatsButton = ({ references, user, saveReferenceToFirestore })
     const results = await Promise.all(
       references.map(async (reference) => {
         try {
-          const response = await axios.post('http://localhost:3002/api/verify-reference', {
-            reference
-          });
+          const response = await verifyReference(reference);
           return {
             reference,
-            status: response.data.verification_status
+            status: response.verification_status
           };
         } catch (error) {
           console.error('Error verifying reference:', error);
@@ -296,13 +295,9 @@ const ReferenceItem = ({ reference, index, userID, autoVerify }) => {
   const verifyReference = async () => {
     try {
       setVerificationStatus("in_progress");
-
-      const response = await axios.post("http://localhost:3002/api/verify-reference", {
-        reference,
-      });
-
-      setVerificationStatus(response.data.verification_status);
-      setResults(response.data.results);
+      const response = await verifyReference(reference);
+      setVerificationStatus(response.verification_status);
+      setResults(response.results);
     } catch (error) {
       console.error("Error verifying reference:", error);
       setVerificationStatus("failed");
@@ -651,9 +646,7 @@ const Chat = () => {
 
       let response;
       if (isISBN(inputText)) {
-        response = await axios.post("http://localhost:3002/api/isbn-citation", {
-          isbn: inputText,
-        });
+        response = await analyzePaper(inputText);
       } else {
         // Simulate progress updates
         const progressInterval = setInterval(() => {
@@ -666,9 +659,7 @@ const Chat = () => {
           });
         }, 500);
 
-        response = await axios.post("http://localhost:3002/api/analyze-paper", {
-          doi: inputText,
-        });
+        response = await analyzePaper(inputText);
 
         clearInterval(progressInterval);
         setSearchProgress(100);

@@ -8,20 +8,19 @@ import ApiDocs from './components/ApiDocs';
 import AboutScreen from './pages/AboutScreen';
 import { AuthProvider } from "./contexts/authContext";
 
-
 function App() {
   return (
     <AuthProvider>
-    <Router>
-      <Routes>
-        <Route path="/api" element={<ApiDocs />} />
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/LoginScreen" element={<LoginScreen />} />
-        <Route path="/create-account" element={<CreateAccountScreen />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/about" element={<AboutScreen />} />
-      </Routes>
-    </Router>
+      <Router basename="/">
+        <Routes>
+          <Route path="/api" element={<ApiDocs />} />
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/LoginScreen" element={<LoginScreen />} />
+          <Route path="/create-account" element={<CreateAccountScreen />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/about" element={<AboutScreen />} />
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }

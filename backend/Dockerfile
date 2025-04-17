@@ -1,32 +1,18 @@
-FROM node:20-slim
+FROM node:20-alpine
 
-# Install Python and pip
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
-
-# Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install Node.js dependencies
-RUN npm install
+# Install dependencies
+RUN npm install --production
 
-# Create and activate virtual environment
-RUN python3 -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
-
-# Copy Python requirements
-COPY requirements.txt ./
-
-# Install Python dependencies in virtual environment
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
+# Copy the rest of the application
 COPY . .
 
-# Expose port
-EXPOSE 8080
+# Expose the port the app runs on
+EXPOSE 3002
 
 # Start the application
-CMD ["node", "server.js"] 
+CMD ["npm", "start"] 
